@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouteService } from 'src/app/services/route.service';
 import { PredictionService } from 'src/app/services/prediction.service';
-import { Transportation } from 'src/app/enums/typeTransportation';
 import { Direction } from 'src/app/enums/direction';
 
 interface Columns {
@@ -62,17 +61,16 @@ export class BoardComponent implements OnInit {
   ngOnInit(): void {
     this.parsedColumns = this.columns.map((col) => col.columnDef);
 
-    this.routeService
-      .get(this.station, Transportation.COMMUTER_RAIL.valueOf())
-      .subscribe((r) => {
-        console.log(r);
-        this.predictionService
-          .get(this.station, r, Direction.OUTBOUND.valueOf())
-          .subscribe((res) => {
-            console.log(res);
+    this.routeService.get(this.station).subscribe((r) => {
+      console.log(r);
 
-            this.dataSource = res;
-          });
-      });
+      this.predictionService
+        .get(this.station, r, Direction.OUTBOUND.valueOf())
+        .subscribe((res) => {
+          console.log(res);
+
+          this.dataSource = res;
+        });
+    });
   }
 }

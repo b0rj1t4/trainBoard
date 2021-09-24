@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Departures } from '../models/departures';
-import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { map } from 'rxjs/operators';
+import { Departures } from '../models/departures';
 import { mapPredictions } from './mappers/departures.mapper';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PredictionService {
-  private readonly URL = environment.API_URL + '/predictions';
+export class SchedulesService {
+  private readonly URL = environment.API_URL + '/schedules';
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +18,7 @@ export class PredictionService {
       'filter[route]': routes.map((r: any) => r.id).join(','),
       'filter[stop]': station,
       'filter[direction_id]': direction,
-      include: 'vehicle,route,stop',
+      include: 'route,stop',
       sort: 'departure_time',
     };
 
