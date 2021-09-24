@@ -1,0 +1,22 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container
+    *ngFor="let column of columns"
+    [matColumnDef]="column.columnDef"
+  >
+    <th mat-header-cell *matHeaderCellDef mat-sort-header scope="col">
+      {{ column.header }}
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container>
+        <span>{{ element[column.columnDef] }}</span>
+      </ng-container>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="parsedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: parsedColumns"></tr>
+
+  <tr *matNoDataRow>
+    <td colspan="9999">No data</td>
+  </tr>
+</table>
