@@ -60,11 +60,9 @@ export class AppComponent {
         console.log(timeToDeparture);
         console.log(this.timeToReFresh);
 
-        console.log(
-          timeToDeparture < this.timeToReFresh
-            ? timeToDeparture
-            : this.timeToReFresh
-        );
+        if (timeToDeparture < this.timeToReFresh) {
+          this.timeToReFresh = timeToDeparture;
+        }
       });
   }
 
