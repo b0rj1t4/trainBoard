@@ -1,8 +1,24 @@
-<div class="flex">
-  <app-calendar></app-calendar>
-  <app-clock></app-clock>
+<div class="host">
+  <h1>Departures</h1>
+
+  <div class="flex">
+    <app-calendar></app-calendar>
+    <app-station
+      [selectedStation]="stationByDefault"
+      (stationChange)="newStation($event)"
+    ></app-station>
+    <app-clock></app-clock>
+  </div>
+
+  <app-board
+    [station]="stationByDefault"
+    [predictions]="predictions"
+  ></app-board>
+
+  <div class="flex flex-center">
+    <app-count-down
+      [timer]="timeToReFresh"
+      (timerDone)="refresh($event)"
+    ></app-count-down>
+  </div>
 </div>
-
-<app-board></app-board>
-
-<router-outlet></router-outlet>

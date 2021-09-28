@@ -1,0 +1,11 @@
+<mat-form-field appearance="fill">
+  <mat-label>Station</mat-label>
+  <mat-select
+    [value]="selectedStation"
+    (selectionChange)="onStationChange($event.value)"
+  >
+    <mat-option *ngFor="let station of stations" [value]="station.id">
+      {{ station.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { RouteService } from 'src/app/services/route.service';
-import { PredictionService } from 'src/app/services/prediction.service';
-import { Direction } from 'src/app/enums/direction';
+import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 interface Columns {
   columnDef: string;
@@ -14,15 +13,14 @@ interface Columns {
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnChanges {
   parsedColumns: string[] = [];
-  dataSource: any[] = [];
-
+  dataSource;
   readonly columns: Columns[] = [
     {
       columnDef: 'carrier',
       header: 'Carrier',
-      isSortable: true,
+      isSortable: false,
     },
     {
       columnDef: 'time',
@@ -37,7 +35,7 @@ export class BoardComponent implements OnInit {
     {
       columnDef: 'train',
       header: 'Train',
-      isSortable: true,
+      isSortable: false,
     },
     {
       columnDef: 'track',
@@ -51,26 +49,17 @@ export class BoardComponent implements OnInit {
     },
   ];
 
-  station = 'BNT-0000'; // North Station
+  @Input() station = 'BNT-0000'; // North Station
+  @Input() predictions = [];
 
-  constructor(
-    private routeService: RouteService,
-    private predictionService: PredictionService
-  ) {}
+  @ViewChild(MatSort) sort: MatSort | undefined;
 
-  ngOnInit(): void {
+  constructor() {
     this.parsedColumns = this.columns.map((col) => col.columnDef);
+  }
 
-    this.routeService.get(this.station).subscribe((r) => {
-      console.log(r);
-
-      this.predictionService
-        .get(this.station, r, Direction.OUTBOUND.valueOf())
-        .subscribe((res) => {
-          console.log(res);
-
-          this.dataSource = res;
-        });
-    });
+  ngOnChanges(): void {
+    this.dataSource = new MatTableDataSource(this.predictions);
+    this.dataSource.sort = this.sort;
   }
 }

@@ -1,14 +1,31 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table
+  mat-table
+  matSort
+  [dataSource]="dataSource"
+  class="mat-elevation-z8 board"
+>
   <ng-container
     *ngFor="let column of columns"
     [matColumnDef]="column.columnDef"
   >
-    <th mat-header-cell *matHeaderCellDef mat-sort-header scope="col">
+    [
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header
+      scope="col"
+      [disabled]="!column.isSortable"
+    >
       {{ column.header }}
     </th>
     <td mat-cell *matCellDef="let element">
-      <ng-container>
-        <span>{{ element[column.columnDef] }}</span>
+      <ng-container [ngSwitch]="column.columnDef">
+        <span class="letters" *ngSwitchCase="'time'">{{
+          element[column.columnDef] | date: "hh:mm a"
+        }}</span>
+        <span lass="letters" *ngSwitchDefault>{{
+          element[column.columnDef]
+        }}</span>
       </ng-container>
     </td>
   </ng-container>
