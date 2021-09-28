@@ -51,14 +51,9 @@ export class AppComponent {
     this.predictionService
       .get(this.stationByDefault, this.routes, Direction.OUTBOUND.valueOf())
       .subscribe((res) => {
-        console.log(res);
-
         this.predictions = res;
 
         const timeToDeparture = moment(res[0].time).diff(moment());
-
-        console.log(timeToDeparture);
-        console.log(this.timeToReFresh);
 
         if (timeToDeparture < this.timeToReFresh) {
           this.timeToReFresh = timeToDeparture;

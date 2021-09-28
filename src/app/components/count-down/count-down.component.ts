@@ -34,8 +34,6 @@ export class CountDownComponent implements OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.timer);
-    console.log(changes);
     if (this.timer > 0) this.initTimer();
   }
 
